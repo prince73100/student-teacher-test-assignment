@@ -32,7 +32,7 @@ app.use(express.json());
 //   res.status(500).json({ error: 'Something broke!' });
 // });
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
 });
