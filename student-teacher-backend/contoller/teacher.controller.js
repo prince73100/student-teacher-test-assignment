@@ -28,7 +28,7 @@ export const createAssignment = async (req, res) => {
 export const getAssignments = async (req, res) => {
   try {
     const assignments = await Assignment.find().populate('teacher', 'name email');
-    res.json({assignments});
+    res.status(200).json({assignments});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });

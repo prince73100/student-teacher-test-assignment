@@ -74,7 +74,7 @@ export const handleSignIn = async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    sendTokenAsCookie(res, token);
+   // sendTokenAsCookie(res, token);
 
     res.json({
       message: 'Login successful',
@@ -94,7 +94,17 @@ export const handleSignIn = async (req, res) => {
 
 export const refreshAccessToken = async (req, res, next) => {
   try {
-    const refreshToken = req.cookies?.token;
+    // const refreshToken = req.cookies?.token || 
+    let refreshToken;
+    if (req.cookies && req.cookies.token) {
+      refreshToken = req.cookies.token;
+    } else if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      refreshToken = req.headers.authorization.split(" ")[1];
+    }
+    console.log(refreshToken)
     if (!refreshToken) {
       return res
         .status(401)

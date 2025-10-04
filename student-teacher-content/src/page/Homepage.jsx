@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useAppContext } from "../hook/context/useContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useServices } from "../hook/useServices";
 import { useEffect } from "react";
 import useAuth from "../hook/useAuth";
@@ -92,8 +92,11 @@ export default function Homepage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const { accessToken, setAccessToken } = useAppContext();
+    const navigation=  useNavigate()
   const handleSignOut = () => {
-    alert("Signed out successfully!");
+    localStorage.clear()
+    setAccessToken(null)
+     navigation('/sign-in')
   };
 
   const navigationItems = [

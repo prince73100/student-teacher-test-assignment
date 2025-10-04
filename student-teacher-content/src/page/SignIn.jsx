@@ -18,7 +18,10 @@ const LoginPage = () => {
   const onSubmit = async (data) => {
     try {
       const res =  await signIn(data);
-      console.log(res)
+      if(res.status===200){
+        const token = res?.data?.token
+        localStorage.setItem('token',token)
+      }
       setTimeout(()=>{
         navigation('/')
       },2000)

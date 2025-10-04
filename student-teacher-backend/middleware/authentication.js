@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 export const protect = (req, res, next) => {
     try {
         let token;
-
         if (req.cookies && req.cookies.token) {
             token = req.cookies.token;
         } else if (
@@ -12,15 +11,12 @@ export const protect = (req, res, next) => {
         ) {
             token = req.headers.authorization.split(" ")[1];
         }
-
+console.log(token)
         if (!token) {
             return res.status(401).json({ message: "Not authorized, token missing" });
         }
-
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
         req.user = decoded;
-
         next();
     } catch (err) {
         console.error(err);

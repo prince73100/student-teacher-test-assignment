@@ -2,16 +2,21 @@ import axios from "axios";
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: "https://student-teacher-test-assignment.onrender.com/api", 
+  baseURL: "https://student-teacher-test-assignment.onrender.com/api",
+  // baseURL:"http://localhost:8000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials:true
+  withCredentials: true
 });
 
 axiosInstance.interceptors.request.use(
   (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
