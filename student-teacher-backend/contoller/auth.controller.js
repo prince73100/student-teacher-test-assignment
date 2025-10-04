@@ -5,10 +5,11 @@ import jwt from 'jsonwebtoken';
 // Helper to create token & cookie
 const sendTokenAsCookie = (res, token) => {
   res.cookie('token', token, {
-    httpOnly: true,                      
-    secure: true, 
-    sameSite: 'none',                 
-    maxAge: 7 * 24 * 60 * 60 * 1000     
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    path: '/',
+    maxAge: 7 * 24 * 60 * 60 * 1000
   });
 };
 
@@ -30,7 +31,7 @@ export const handleSignUp = async (req, res) => {
       name,
       email,
       password,
-      role, 
+      role,
     });
 
     const token = jwt.sign(
@@ -99,10 +100,10 @@ export const refreshAccessToken = async (req, res, next) => {
         .status(401)
         .json({ success: false, message: "Refresh token missing" });
     }
-    const decoded = jwt.verify(refreshToken,process.env.JWT_SECRET );
+    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
     const accessToken = generateAccessToken({
-        id: decoded.id,
-        email: decoded.email,
+      id: decoded.id,
+      email: decoded.email,
     });
     console.log(accessToken)
 
@@ -115,11 +116,11 @@ export const refreshAccessToken = async (req, res, next) => {
   }
 };
 
-export const getUserinfo = async(req,res)=>{
-    try {
-        const allUser =  await User.findById(req.user.id)
-        return res.json({allUser})
-    } catch (error) {
-        
-    }
+export const getUserinfo = async (req, res) => {
+  try {
+    const allUser = await User.findById(req.user.id)
+    return res.json({ allUser })
+  } catch (error) {
+
+  }
 }
